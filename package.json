@@ -1,0 +1,38 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/image-edge": "^1.0.0-rc.1-28103694.7ca114e",
+    "@nuxtjs/supabase": "^0.3.6",
+    "@nuxtjs/tailwindcss": "^6.7.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/node": "^14.18.48",
+    "nuxt": "^3.5.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@netlify/functions": "^1.6.0",
+    "@pinia/nuxt": "^0.4.11",
+    "@prisma/client": "^4.15.0",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@vueuse/nuxt": "^10.1.2",
+    "netlify-cli": "^15.4.1",
+    "prisma": "^4.15.0",
+    "typescript": "^4.9.5",
+    "vue-toastification": "^2.0.0-rc.5"
+  }
+}

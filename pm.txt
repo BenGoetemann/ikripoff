@@ -1,0 +1,12 @@
+Use this calendar
+-> https://fullcalendar.io/demos
+
+
+Todo:
+
+- Handle useFetch Calls with status (200, 400, etc.) 
+- After Profile Creation -> Navigate to estate creation
+- Estate Form (BIG! DO IT FAST!)
+- Read Only Estates that user has created
+
+- Policies for reading and writing Profile Pictures (see ChatGPT)

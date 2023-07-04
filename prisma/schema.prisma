@@ -1,0 +1,285 @@
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model address {
+    id        String   @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+    timestamp DateTime @default(now())
+
+    hash String @unique @db.VarChar(64)
+
+    street       String     @db.VarChar(50)
+    streetNumber String     @db.VarChar(10)
+    postalCode   String     @db.VarChar(50)
+    city         String     @db.VarChar(50)
+    region       String?    @db.VarChar(50)
+    country      String?    @db.VarChar(50)
+    publish      Boolean    @default(false)
+    contact      contact[]  @relation("contactToAddress")
+    property     property[] @relation("PropertyToAddress")
+}
+
+model contact {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    salutation    String?       @db.VarChar(50)
+    title         String?       @db.VarChar(50)
+    firstName     String?       @db.VarChar(50)
+    lastName      String        @db.VarChar(50)
+    email         String        @unique @db.VarChar(50)
+    phone         String?       @db.VarChar(50)
+    mobilePhone   String?       @db.VarChar(50)
+    company       String?       @db.VarChar(50)
+    website       String?       @db.VarChar(100)
+    address       address?      @relation("contactToAddress", fields: [addressId], references: [id])
+    addressId     String?       @db.Uuid
+    thumbnail     String?
+    properties    property[]    @relation("PropertyTocontact")
+    requests      request[]
+    subscriptions subscription?
+    appointments  appointment[]
+    message       message[]
+}
+
+model phase {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    name             String           @db.VarChar(50)
+    requestRelevant  Boolean          @default(false)
+    propertyRelevant Boolean          @default(false)
+    properties       property[]
+    actions          actionTemplate[] @relation("ActionToPhase")
+    actionsTo        actionTemplate[] @relation("ActionToPhaseTo")
+    requests         request[]
+}
+
+model actionTemplate {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    actionName String   @db.VarChar(50)
+    actionBody String
+    eventName  String   @db.VarChar(50)
+    eventBody  String
+    phase      phase    @relation("ActionToPhase", fields: [phaseId], references: [id])
+    phaseId    String   @db.Uuid
+    phaseTo    phase    @relation("ActionToPhaseTo", fields: [phaseIdTo], references: [id])
+    phaseIdTo  String   @db.Uuid
+    actions    action[] @relation("ActionToActionTemplate")
+}
+
+model request {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    property      property   @relation(fields: [propertyId], references: [id])
+    propertyId    String     @db.Uuid
+    targetId      String
+    contact       contact    @relation(fields: [contactId], references: [id])
+    contactId     String     @db.Uuid
+    phase         phase      @relation(fields: [phaseId], references: [id])
+    phaseId       String     @db.Uuid
+    unreadMessage Boolean    @default(true)
+    actions       action[]
+    notes         note[]
+    timeSlots     timeSlot[]
+    messages      message[]
+}
+
+model action {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    actionTemplate   actionTemplate @relation("ActionToActionTemplate", fields: [actionTemplateId], references: [id])
+    actionTemplateId String         @db.Uuid
+    request          request        @relation(fields: [requestId], references: [id])
+    requestId        String         @db.Uuid
+}
+
+model property {
+    id                             String                        @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+    timestamp                      DateTime                      @default(now())
+    contact                        contact                       @relation("PropertyTocontact", fields: [contactId], references: [id])
+    contactId                      String                        @db.Uuid
+    phase                          phase                         @relation(fields: [phaseId], references: [id])
+    phaseId                        String                        @db.Uuid
+    estateSyncId                   String?
+    address                        address?                      @relation("PropertyToAddress", fields: [addressId], references: [id])
+    addressId                      String?                       @db.Uuid
+    apartmentType                  String
+    availableFrom                  String?                       @db.VarChar(50)
+    commission                     String?                       @db.VarChar(50)
+    commissionDescription          String?                       @db.VarChar(50)
+    condition                      String?                       @db.VarChar(50)
+    condoFee                       Int?
+    constructionYear               Int?
+    description                    String?
+    energyCertificateStatus        String?                       @db.VarChar(50)
+    floor                          Int?
+    furnishingDescription          String?                       @db.VarChar(50)
+    hasBalcony                     Boolean?
+    hasBuiltInKitchen              Boolean?
+    hasCellar                      Boolean?
+    hasGarden                      Boolean?
+    hasGuestToilet                 Boolean?
+    hasLift                        Boolean?
+    heatingType                    String?                       @db.VarChar(50)
+    interiorQuality                String?                       @db.VarChar(50)
+    isAccessible                   Boolean?
+    isListed                       Boolean?
+    isRented                       Boolean?
+    isSuitableAsHolidayHome        Boolean?
+    lastRefurbished                Int?
+    livingArea                     Int?
+    locationDescription            String?
+    miscellaneousDescription       String?
+    monthlyRentalIncome            Int?
+    numberOfBathrooms              Int?
+    numberOfBedrooms               Int?
+    numberOfFloors                 Int?
+    numberOfParkingSpaces          Int?
+    numberOfRooms                  Int?
+    parkingSpacePurchasePrice      Int?
+    parkingSpaceType               String?                       @db.VarChar(50)
+    plotArea                       Int?
+    purchasePrice                  Int
+    purchasePriceOnrequest         Boolean?
+    requiresWBS                    Boolean?
+    residentialEnergyCertificate   residentialEnergyCertificate? @relation(fields: [residentialEnergyCertificateId], references: [id])
+    residentialEnergyCertificateId String?                       @unique @db.Uuid
+    title                          String                        @db.VarChar(100)
+    usableArea                     Int?
+    houseType                      String?                       @db.VarChar(50)
+    hasLodgerFlat                  Boolean?
+    buildingRegulation             String?                       @db.VarChar(50)
+    development                    String?                       @db.VarChar(50)
+    divisibleFrom                  Int?
+    floorSpaceIndex                Int?
+    commercialEnergyCertificate    commercialEnergyCertificate?  @relation(fields: [commercialEnergyCertificateId], references: [id])
+    commercialEnergyCertificateId  String?                       @unique @db.Uuid
+    drivingTimeToAirport           Int?
+    drivingTimeToFreeway           Int?
+    drivingTimeToTrainStation      Int?
+    flooringType                   String?                       @db.VarChar(50)
+    hasAirConditioning             Boolean?
+    hasCanteen                     Boolean?
+    hasKitchen                     Boolean?
+    hasNetworkCables               Boolean?
+    officeType                     String?                       @db.VarChar(50)
+    gastronomyType                 String?                       @db.VarChar(50)
+    numberOfBeds                   Int?
+    numberOfSeats                  Int?
+    hasTerrace                     Boolean?
+    retailType                     String?                       @db.VarChar(50)
+    hasRamp                        Boolean?
+    industrialType                 String?                       @db.VarChar(50)
+    hallHeight                     Int?
+    parkingArea                    Int?
+    commercialPlotType             String?                       @db.VarChar(50)
+    actualYearlyRentalIncome       Int?
+    additionalCosts                Int?
+    rentableArea                   Int?
+    residentialInvestmentType      String?                       @db.VarChar(50)
+    targetYearlyRentalIncome       Int?
+    totalArea                      Int?
+    thumbnail                      String?
+    listingType                    String                        @db.VarChar(50)
+    requests                       request[]
+}
+
+model residentialEnergyCertificate {
+    id                String    @id @default(uuid()) @db.Uuid
+    timestamp         DateTime  @default(now())
+    type              String    @db.VarChar(50)
+    prior2014         Boolean?
+    energySource      String    @db.VarChar(50)
+    energyNeed        Int?
+    energyConsumption Int?
+    energyClass       String?   @db.VarChar(50)
+    warmWaterIncluded Boolean?
+    property          property?
+}
+
+model commercialEnergyCertificate {
+    id               String    @id @default(uuid()) @db.Uuid
+    timestamp        DateTime  @default(now())
+    type             String    @db.VarChar(50)
+    prior2014        Boolean?
+    energySource     String    @db.VarChar(50)
+    energyNeed       Int?
+    powerNeed        Int?
+    heatNeed         Int?
+    powerConsumption Int?
+    heatConsumption  Int?
+    property         property?
+}
+
+model subscription {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    type      String  @db.VarChar(50)
+    contact   contact @relation(fields: [contactId], references: [id])
+    contactId String  @unique @db.Uuid
+}
+
+model note {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    requestId String  @db.Uuid
+    body      String
+    request   request @relation(fields: [requestId], references: [id])
+}
+
+model timeSlot {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    timeFrom        DateTime
+    timeTo          DateTime
+    maxParticipants Int
+    availableSlots  Int
+    request         request       @relation(fields: [requestId], references: [id])
+    requestId       String        @db.Uuid
+    appointment     appointment[]
+}
+
+model appointment {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    timeSlot   timeSlot @relation(fields: [timeSlotId], references: [id])
+    timeSlotId String   @db.Uuid
+    contact    contact  @relation(fields: [contactId], references: [id])
+    contactId  String   @db.Uuid
+}
+
+model message {
+    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+
+    timestamp DateTime @default(now())
+
+    requestId String  @db.Uuid
+    contact   contact @relation(fields: [contactId], references: [id])
+    contactId String  @db.Uuid
+    body      String
+    request   request @relation(fields: [requestId], references: [id])
+}

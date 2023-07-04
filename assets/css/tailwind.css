@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    html, body {
+        font-family: "Roboto", sans-serif;
+        @apply antialiased bg-background;
+    }
+
+    form {
+        @apply flex-col-start gap-3 flex-grow;
+
+        > section {
+            @apply w-full
+        }
+
+        h3 {
+            @apply text-2xl font-medium mt-10 mb-2
+        }
+    }
+
+    .input-wrapper {
+        @apply w-full;
+
+        >  .input {
+            @apply rounded-subtile bg-white border-borders ring-0 placeholder-decent w-full;
+
+            &.error {
+                @apply border-attention
+            }
+        }
+
+        > label {
+            @apply text-sm text-decent font-medium
+        }
+
+        > .error-message {
+            @apply text-sm text-attention font-medium 
+        }
+    }
+    
+    /* =============================================================== FONT ROBOTO */
+    
+    /* REGULAR */
+
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-Italic.ttf') format('truetype');
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    /* MEDIUM */
+
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-MediumItalic.ttf') format('truetype');
+        font-weight: 500;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    /* BOLD */
+    
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roboto';
+        src: url('~/assets/fonts/Roboto/Roboto-BoldItalic.ttf') format('truetype');
+        font-weight: 700;
+        font-style: italic;
+        font-display: swap;
+    }
+}
+
+@layer utilities {
+    .no-select {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+    }
+
+    .no-drag {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
+
+    .flex-col-center {
+        @apply flex flex-col items-center justify-center
+    }
+
+    .flex-col-start {
+        @apply flex flex-col items-start justify-start
+    }
+
+    .flex-col-end {
+        @apply flex flex-col items-end justify-start
+    }
+
+    .flex-col-west {
+        @apply flex flex-col items-start justify-center
+    }
+
+    .flex-row-center {
+        @apply flex flex-row items-center justify-center
+    }
+
+    .flex-row-start {
+        @apply flex flex-row items-start justify-start
+    }
+    .flex-row-end {
+        @apply flex flex-row items-end justify-end
+    }
+
+    .flex-row-between {
+        @apply flex flex-row items-center justify-between
+    }
+
+    .flex-row-around {
+        @apply flex flex-row items-center justify-around
+    }
+
+    .safe-area-t {
+        @apply pt-10
+    }
+
+    .safe-area-b {
+        @apply pb-10
+    }
+
+    .safe-area-l {
+        @apply pl-8
+    }
+
+    .safe-area-r {
+        @apply pr-8
+    }
+
+    .filter-black {
+        filter: brightness(0%) contrast(100%);
+    }
+
+    .transform-it {
+        @apply transform transition-all duration-500;
+      }
+     
+}
