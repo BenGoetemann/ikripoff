@@ -11,7 +11,7 @@
       <div class="search-input-wrapper">
         <div>
           <icon class="text-xl" :icon="['fas', 'magnifying-glass']" />
-          <UIInputSearch callToAction="Immobilie suchen" name="Test" />
+          <UIInputSearch callToAction="Projekt suchen" name="Test" />
         </div>
         <nav>
           <ELUIToggle type="mode" :store="propertyStore" text="Kanban Board" />

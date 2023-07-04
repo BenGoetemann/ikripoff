@@ -18,7 +18,7 @@
       <section class="mt-2">
         <img
           v-if="navStore.open"
-          src="~assets/images/ci/text_logo.svg"
+          src="~assets/images/ci/format-54-logo-white.svg"
           alt=""
           :class="
             navStore.open ? 'visible transform-it delay-500 ' : 'collapse'
@@ -26,7 +26,7 @@
         />
         <img
           v-if="!navStore.open"
-          src="~assets/images/ci/icon_logo.svg"
+          src="~assets/images/ci/format-54-logo-white-icon.svg"
           alt=""
           :class="navStore.open ? 'collapse' : 'visible delay-500 transform-it'"
         />
@@ -40,10 +40,10 @@
             : 'pl-[0.4rem] transform-it overflow-hidden'
         "
       >
-        <ELNavItem text="Immobilien" />
-        <ELNavItem text="Anfragen" />
-        <ELNavItem text="Kalender" />
-        <ELNavItem text="Services" />
+        <ELNavItem text="Projekte" />
+        <!--<ELNavItem text="Anfragen" />-->
+       <!-- <ELNavItem text="Kalender" />-->
+       <!--<ELNavItem text="Services" />-->
         <ELNavItem text="Profil" />
         <ELNavItem prevent text="Logout" @click="signOutUser" />
         <ELNavItem text="Login" />
@@ -72,7 +72,7 @@ img {
 }
 
 .icon {
-  @apply w-6 aspect-square rounded-full border text-sm bg-white z-20 top-[3.23rem] -right-3 border-borders flex-col-center absolute;
+  @apply w-6 aspect-square rounded-full border text-sm bg-primary text-tertiary z-20 top-[3.23rem] -right-3 border-borders flex-col-center absolute;
 }
 
 .nav-item-section {

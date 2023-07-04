@@ -44,7 +44,11 @@ watch(
 
 .button-primary {
   @apply pl-7 pr-8 py-3 w-full rounded-subtile font-bold flex-row-center gap-3;
-  @apply bg-primary;
+  @apply bg-primary text-tertiary;
+  font-family: 'Staff-X-Wide', sans-serif;
+  font-weight: 700; 
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
 .success {

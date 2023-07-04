@@ -35,7 +35,7 @@ const showLoginForm = () => {
 
 watch(user, () => {
   if (user.value) {
-    router.push("/immobilien");
+    router.push("/projekte");
     userStore.setIsAutheticated(true);
   }
 });

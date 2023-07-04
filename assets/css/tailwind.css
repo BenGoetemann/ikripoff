@@ -5,8 +5,9 @@
 @layer base {
 
     html, body {
-        font-family: "Roboto", sans-serif;
-        @apply antialiased bg-background;
+        font-family: "Staff", sans-serif;
+        @apply antialiased bg-background text-white;
+
     }
 
     form {
@@ -25,7 +26,7 @@
         @apply w-full;
 
         >  .input {
-            @apply rounded-subtile bg-white border-borders ring-0 placeholder-decent w-full;
+            @apply rounded-subtile bg-decent border-borders ring-0 placeholder-decent w-full;
 
             &.error {
                 @apply border-attention
@@ -33,7 +34,7 @@
         }
 
         > label {
-            @apply text-sm text-decent font-medium
+            @apply text-sm text-white font-medium
         }
 
         > .error-message {
@@ -42,58 +43,31 @@
     }
     
     /* =============================================================== FONT ROBOTO */
-    
-    /* REGULAR */
+    @import url("https://use.typekit.net/wdv6hwc.css");
 
     @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
-        font-weight: 400;
+        font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+        font-family: 'Staff';
         font-style: normal;
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-Italic.ttf') format('truetype');
         font-weight: 400;
-        font-style: italic;
-        font-display: swap;
+        src:    url('../fonts/Staff-Light.woff2') format('woff2'),
+                url('../fonts/Staff-Light.woff') format('woff'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
     }
-
-    /* MEDIUM */
-
     @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
-        font-weight: 500;
+        font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+        font-family: 'Staff-X-Wide';
         font-style: normal;
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-MediumItalic.ttf') format('truetype');
-        font-weight: 500;
-        font-style: italic;
-        font-display: swap;
-    }
-
-    /* BOLD */
-    
-    @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
         font-weight: 700;
-        font-display: swap;
+        src:    url('../fonts/StaffXWide-Bold.woff2') format('woff2'),
+                url('../fonts/StaffXWide-Bold.woff') format('woff'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
     }
-
     @font-face {
-        font-family: 'Roboto';
-        src: url('~/assets/fonts/Roboto/Roboto-BoldItalic.ttf') format('truetype');
-        font-weight: 700;
-        font-style: italic;
-        font-display: swap;
+        font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+        font-family: 'Staff-X-Wide';
+        font-style: normal;
+        font-weight: 400;
+        src:    url('../fonts/StaffXWide-Regular.woff2') format('woff2'),
+                url('../fonts/StaffXWide-Regular.woff') format('woff'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
     }
 }
 
