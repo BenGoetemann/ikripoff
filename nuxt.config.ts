@@ -5,17 +5,17 @@ export default defineNuxtConfig({
     head: {
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1.0, viewport-fit=cover",
-      title: "Immokreisel - Verkaufen Sie Ihre Immobilie ohne Makler",
+      title: "Format 54 - Videoproduktion mit Herz",
       meta: [
         // <meta name="description" content="My amazing site">
         {
           name: "description",
           content:
-            "Mit Immokreisel können Sie Ihre Immobilie selbst und ohne Makler verkaufen. Immokreisel führt Sie durch den Verkaufsprozess Ihrer Immobilie.",
+            "Videoproduktion von A bis Z – wir begleiten Sie von der ersten Idee bis zum fertigen Film und erzählen Geschichten, die bewegen. Versprochen!",
         },
       ],
       // favicon
-      link: [{ rel: "icon", type: "image/x-icon", href: "/icon_logo.svg" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/_nuxt/assets/images/ci/format-54-logo-white-icon.svg" }],
     },
   },
   css: [

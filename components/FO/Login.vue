@@ -3,13 +3,13 @@
       <UIInputText
         type="email"
         required
-        name="Email"
+        name="E-Mail"
         @update="(e) => (email = e)"
       />
       <UIInputText
         required
         type="password"
-        name="Password"
+        name="Passwort"
         @update="(e) => (password = e)"
       />
       <UIButtonPrimary

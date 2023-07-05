@@ -2,6 +2,7 @@
   <UINavItem
     @click="navItemClicked"
     :text="text"
+    :iconUrl="iconUrl"
     :active="isActive"
     :hideText="isNavBarClosed"
   />

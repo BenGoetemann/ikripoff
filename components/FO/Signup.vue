@@ -2,14 +2,14 @@
   <form v-if="status === 'default'" @submit.prevent novalidate>
     <UIInputText
       type="email"
-      name="Email"
+      name="E-Mail Adresse"
       required
       @update="(e) => (email.value = e)"
       :error-message="email.errorMsg"
     />
     <UIInputText
       type="password"
-      name="Password"
+      name="Passwort"
       required
       autocomplete="new-password"
       @update="(e) => (password.value = e)"
@@ -17,7 +17,7 @@
     />
     <UIInputText
       type="password"
-      name="Confirm Password"
+      name="Passwort bestätigen"
       required
       autocomplete="new-password"
       @update="(e) => (passwordConfirmation.value = e)"
@@ -29,14 +29,14 @@
       @update="(e) => (privacyConsent.value = e)"
       :error="privacyConsent.error"
     >
-      By ticking this box I agree that I have read the privacy policy.
+      Ich stimme zu, dass ich die Datenschutzerklärung gelesen und akzeptiert habe.
     </UIInputCheckbox>
     <UIButtonPrimary
       :disabled="disabled"
       icon="user-plus"
       shrink
       @click="signUpWithEmail()"
-      text="Sign Up"
+      text="Registrieren"
     />
     <!-- <p class="error-message" v-if="errorMsg">{{ errorMsg }}</p> -->
   </form>

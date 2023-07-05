@@ -5,7 +5,7 @@
           <FOLogin />
         <NuxtLink to="/signup"
           ><p class="text-sm mt-2">
-            Not A Member? <span>Sign Up For Free!</span>
+            Noch kein Konto? <span>Ganz einfach hier anmelden.</span>
           </p></NuxtLink
         >
       </section>

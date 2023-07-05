@@ -6,6 +6,7 @@
 
     html, body {
         font-family: "Staff", sans-serif;
+        font-weight: 400;
         @apply antialiased bg-background text-white;
 
     }

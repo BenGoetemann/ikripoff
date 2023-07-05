@@ -1,6 +1,7 @@
 <template>
   <div class="nav-item-wrapper group" :class="[active ? 'active' : 'inactive']">
-    <!--<img src="~assets/icons/window.svg" alt="" />-->
+    
+    <img v-if="iconUrl" :src="[iconUrl]" alt="Icon" />
     <p :class="hideText ? 'hideText' : 'showText'">
       {{ text }}
     </p>
@@ -11,6 +12,7 @@
 
 const props = defineProps<{
   text: string;
+  iconUrl?: string;
   active?: boolean;
   hideText?: boolean;
 }>();
@@ -24,6 +26,10 @@ const props = defineProps<{
   text-transform: uppercase;
   font-size: 14px;
 
+}
+
+.nav-item-wrapper img {
+  @apply w-5 h-5;
 }
 
 p {

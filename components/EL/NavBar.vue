@@ -23,6 +23,7 @@
           :class="
             navStore.open ? 'visible transform-it delay-500 ' : 'collapse'
           "
+          class="main-logo-navbar"
         />
         <img
           v-if="!navStore.open"
@@ -40,13 +41,13 @@
             : 'pl-[0.4rem] transform-it overflow-hidden'
         "
       >
-        <ELNavItem text="Projekte" />
+        <ELNavItem text="Projekte" iconUrl="/_nuxt/assets/icons/icon-projects.svg" />
         <!--<ELNavItem text="Anfragen" />-->
        <!-- <ELNavItem text="Kalender" />-->
        <!--<ELNavItem text="Services" />-->
-        <ELNavItem text="Profil" />
-        <ELNavItem prevent text="Logout" @click="signOutUser" />
-        <ELNavItem text="Login" />
+        <ELNavItem text="Profil" iconUrl="/_nuxt/assets/icons/icon-profile.svg" />
+        <ELNavItem prevent text="Logout" @click="signOutUser" iconUrl="/_nuxt/assets/icons/icon-logout.svg" />
+        <ELNavItem text="Login" iconUrl="/_nuxt/assets/icons/icon-login.svg" />
       </section>
     </div>
   </nav>
@@ -77,5 +78,9 @@ img {
 
 .nav-item-section {
   @apply py-20 gap-10 flex-col-start overflow-hidden;
+}
+
+.main-logo-navbar {
+  max-width: 220px;
 }
 </style>

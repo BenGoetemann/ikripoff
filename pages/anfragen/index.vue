@@ -2,7 +2,7 @@
   <LOOverview>
     <template #header>
       <ELBreadcrumb />
-      <UIButtonPrimary shrink icon="plus" text="Objekt anlegen" />
+      <UIButtonPrimary shrink icon="plus" text="Projekt anfragen" />
     </template>
     <template #main>
       <div class="flex-row-start mb-4 safe-area-l safe-area-r">
