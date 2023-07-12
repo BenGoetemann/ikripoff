@@ -53,9 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUrlSpotter } from "~/composables/useFormHelper";
-import { useFormToast } from "~/composables/useToastHelper";
-
 const route = useRoute();
 const props = defineProps<{
   data: any;
@@ -67,11 +64,11 @@ onMounted(() => {
 
 const fillPreloadedValues = () => {
   if (props.data.data.length > 0) {
-    const contact = props.data.data[0];
-    street.value.value = contact.address.street;
-    streetNumber.value.value = contact.address.streetNumber;
-    postalCode.value.value = contact.address.postalCode;
-    city.value.value = contact.address.city;
+    const company = props.data.data[0];
+    street.value.value = company.street;
+    streetNumber.value.value = company.streetNumber;
+    postalCode.value.value = company.postalCode;
+    city.value.value = company.city;
   }
 };
 
@@ -121,17 +118,22 @@ const update = async () => {
   }
 
   // request
-  const { data, pending, error } = await useFetch("api/contact/address", {
+  const { data, pending, error } = await useFetch("../api/company/address", {
     method: "POST",
     body: formData,
+    query: {
+      id: route.params.slug,
+    },
   });
+
+  console.log(data);
 
   isPending.value = pending.value;
 
   useFormToast(
     data.value.error,
-    "Ihre Adresse wurde aktualisiert",
-    "Ihre Adresse konnte nicht aktualisiert werden. Grund: "
+    "Die Adresse wurde aktualisiert",
+    "Die Adresse konnte nicht aktualisiert werden. Grund: "
   );
 
   disabled.value = false;

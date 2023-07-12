@@ -1,7 +1,7 @@
 <template>
   <div class="nav-item-wrapper group" :class="[active ? 'active' : 'inactive']">
     
-    <img v-if="iconUrl" :src="[iconUrl]" alt="Icon" />
+    <img v-if="iconUrl" :src="useLocalAsset(iconUrl)" alt="Icon" />
     <p :class="hideText ? 'hideText' : 'showText'">
       {{ text }}
     </p>

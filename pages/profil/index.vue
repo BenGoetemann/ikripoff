@@ -9,7 +9,6 @@
         <UIContainerBorder>
           <FOContactInformation :data="data" class="safe-area-b" />
           <FOContactThumbnail :data="data" class="safe-area-b" />
-          <FOContactAddress :data="data" class="safe-area-b" />
           <FOAccount :data="data" class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
@@ -19,7 +18,7 @@
 
 <script setup lang="ts">
 const router = useRouter();
-const propertyStore = usePropertyOverviewStore();
+const projectStore = useProjectOverviewStore();
 
 const { data, pending, error } = await useFetch("api/contact/get", {
   method: "GET",

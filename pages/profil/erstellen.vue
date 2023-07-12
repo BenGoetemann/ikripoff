@@ -7,7 +7,7 @@
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOCreateNewProfile class="safe-area-b" />
+          <FOCreateNewContact class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
     </template>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-const propertyStore = usePropertyOverviewStore();
+const projectStore = useProjectOverviewStore();
 
 definePageMeta({ middleware: ["auth", "user-has-no-profile"] });
 </script>

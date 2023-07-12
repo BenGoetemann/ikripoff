@@ -1,84 +1,15 @@
 <template>
   <form @submit.prevent novalidate>
-    <h3>Person</h3>
-    <UIInputDropdown
-      name="Anrede"
-      :value="salutation.value"
-      @update="(e) => (salutation.value = e)"
-      :error-message="salutation.errorMsg"
-      :loading="isPending"
-      :disabled="disabled"
-      :options="[
-        {
-          value: 'Herr',
-          label: 'Herr',
-        },
-        {
-          value: 'Frau',
-          label: 'Frau',
-        },
-        {
-          value: 'Hallo',
-          label: 'Hallo',
-        },
-      ]"
-    />
-    <UIInputDropdown
-      name="Titel"
-      :value="title.value"
-      @update="(e) => (title.value = e)"
-      :error-message="title.errorMsg"
-      :loading="isPending"
-      :disabled="disabled"
-      :options="titleOptions"
-    />
-
+    <h3>Unternehmen</h3>
     <UIInputText
       type="text"
-      name="Vorname"
+      name="Name"
       required
-      :value="firstName.value"
-      @update="(e) => (firstName.value = e)"
+      :value="name.value"
+      @update="(e) => (name.value = e)"
       :loading="isPending"
       :disabled="disabled"
-      :error-message="firstName.errorMsg"
-    />
-    <UIInputText
-      type="text"
-      name="Nachname"
-      required
-      :value="lastName.value"
-      :loading="isPending"
-      :disabled="disabled"
-      @update="(e) => (lastName.value = e)"
-      :error-message="lastName.errorMsg"
-    />
-    <UIInputText
-      type="text"
-      name="Telefonnummer"
-      :value="phone.value"
-      :loading="isPending"
-      :disabled="disabled"
-      @update="(e) => (phone.value = e)"
-      :error-message="phone.errorMsg"
-    />
-    <UIInputText
-      type="text"
-      name="Handynummer"
-      :value="mobilePhone.value"
-      :loading="isPending"
-      :disabled="disabled"
-      @update="(e) => (mobilePhone.value = e)"
-      :error-message="mobilePhone.errorMsg"
-    />
-    <UIInputText
-      type="text"
-      name="Unternehmen"
-      :value="company.value"
-      :loading="isPending"
-      :disabled="disabled"
-      @update="(e) => (company.value = e)"
-      :error-message="company.errorMsg"
+      :error-message="name.errorMsg"
     />
     <UIInputText
       type="text"
@@ -89,14 +20,32 @@
       @update="(e) => (website.value = e)"
       :error-message="website.errorMsg"
     />
-    <h3>Profilbild</h3>
+    <UIInputText
+      type="text"
+      name="E-Mail"
+      :value="email.value"
+      :loading="isPending"
+      :disabled="disabled"
+      @update="(e) => (email.value = e)"
+      :error-message="email.errorMsg"
+    />
+    <UIInputText
+      type="text"
+      name="Telefonnummer"
+      :value="phone.value"
+      :loading="isPending"
+      :disabled="disabled"
+      @update="(e) => (phone.value = e)"
+      :error-message="phone.errorMsg"
+    />
+    <!-- <h3>Logo</h3>
     <UIInputImage
       :value="image.preloadedValue"
       @update="(e) => (image.value = e)"
       :error-message="image.errorMsg"
       :loading="isPending"
       name="profile picture"
-    />
+    /> -->
     <h3>Adresse</h3>
     <UIInputText
       type="text"
@@ -144,30 +93,14 @@
       icon="user-plus"
       shrink
       @click="updateOrCreateProfile"
-      text="Profil erstellen"
+      text="Unternehmen erstellen"
     />
     <!-- <p class="error-message" v-if="errorMsg">{{ errorMsg }}</p> -->
   </form>
 </template>
 
 <script setup lang="ts">
-const user = useSupabaseUser();
 const router = useRouter();
-
-const titleOptions: Option<Title>[] = [
-  {
-    value: "dr.",
-    label: "Dr.",
-  },
-  {
-    value: "prof.",
-    label: "Prof.",
-  },
-  {
-    value: "prof. dr.",
-    label: "Prof. Dr.",
-  },
-];
 
 // Feedback
 
@@ -177,28 +110,17 @@ const isPending = ref(false);
 
 // Inputs
 
-const image = ref({
-  value: "",
-  preloadedValue: "",
-  errorMsg: "",
-});
-
-const salutation: Ref<InputRef<Salutation | "">> = ref({
+const name: Ref<InputRef<string>> = ref({
   value: "",
   errorMsg: "",
 });
 
-const title: Ref<InputRef<Title | "">> = ref({
+const website: Ref<InputRef<string>> = ref({
   value: "",
   errorMsg: "",
 });
 
-const firstName: Ref<InputRef<string>> = ref({
-  value: "",
-  errorMsg: "",
-});
-
-const lastName: Ref<InputRef<string>> = ref({
+const email: Ref<InputRef<string>> = ref({
   value: "",
   errorMsg: "",
 });
@@ -208,18 +130,9 @@ const phone: Ref<InputRef<string>> = ref({
   errorMsg: "",
 });
 
-const mobilePhone: Ref<InputRef<string>> = ref({
+const image = ref({
   value: "",
-  errorMsg: "",
-});
-
-const company: Ref<InputRef<string>> = ref({
-  value: "",
-  errorMsg: "",
-});
-
-const website: Ref<InputRef<string>> = ref({
-  value: "",
+  preloadedValue: "",
   errorMsg: "",
 });
 
@@ -249,16 +162,11 @@ const updateOrCreateProfile = async () => {
 
   let formData = new FormData();
 
-  formData.append("id", user.value!.id);
-  formData.append("salutation", salutation.value.value);
-  formData.append("title", title.value.value);
-  formData.append("profilePicture", image.value.value);
-  formData.append("firstName", firstName.value.value);
-  formData.append("lastName", lastName.value.value);
-  formData.append("phone", phone.value.value);
-  formData.append("mobilePhone", mobilePhone.value.value);
-  formData.append("company", company.value.value);
   formData.append("website", website.value.value);
+  formData.append("name", name.value.value);
+  formData.append("email", email.value.value);
+  formData.append("phone", phone.value.value);
+  formData.append("thumbnail", image.value.value);
   formData.append("street", street.value.value);
   formData.append("streetNumber", streetNumber.value.value);
   formData.append("postalCode", postalCode.value.value);
@@ -273,7 +181,7 @@ const updateOrCreateProfile = async () => {
   console.log("test");
 
   // request
-  const { data, pending, error } = await useFetch("api/contact/create", {
+  const { data, pending, error } = await useFetch("../api/company/create", {
     method: "POST",
     body: formData,
   });
@@ -282,11 +190,11 @@ const updateOrCreateProfile = async () => {
 
   useFormToast(
     data.value.error,
-    "Ihr Profil wurde erfolgreich erstellt.",
-    "Ihr Profil konnte nicht erstellt werden. Grund: "
+    "Das Unternehmen wurde erfolgreich erstellt.",
+    "Das Unternehmen konnte nicht erstellt werden. Grund: "
   );
 
-  router.push("/profil");
+  router.push("/unternehmen");
 
   disabled.value = false;
 };
@@ -294,33 +202,33 @@ const updateOrCreateProfile = async () => {
 const validateInputs = () => {
   const errorMessages = ref([] as string[]);
 
-  if (!salutation.value.value) {
-    const errorMessage = "Bitte gib eine Anrede an.";
-    salutation.value.errorMsg = errorMessage;
+  if (!name.value.value) {
+    const errorMessage = "Bitte gib einen Unternehmensnamen an.";
+    name.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
-  if (!firstName.value.value) {
-    const errorMessage = "Bitte gib einen Vornamen an.";
-    firstName.value.errorMsg = errorMessage;
+  if (useUrlSpotter(name.value.value)) {
+    const errorMessage = "Bitte gib einen gültigen Unternehmensnamen an.";
+    name.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
-  if (useUrlSpotter(firstName.value.value)) {
-    const errorMessage = "Bitte gib einen gültigen Vornamen an.";
-    firstName.value.errorMsg = errorMessage;
+  if (!email.value.value) {
+    const errorMessage = "Bitte gib eine E-Mail Adresse an.";
+    email.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
-  if (!lastName.value.value) {
-    const errorMessage = "Bitte gib einen Nachnamen an.";
-    lastName.value.errorMsg = errorMessage;
+  if (useUrlSpotter(email.value.value)) {
+    const errorMessage = "Bitte gib einen gültigen E-Mail Adresse an.";
+    email.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
-  if (useUrlSpotter(lastName.value.value)) {
-    const errorMessage = "Bitte gib einen gültigen Nachnamen an.";
-    lastName.value.errorMsg = errorMessage;
+  if (website.value.value !== "" && !useUrlSpotter(website.value.value)) {
+    const errorMessage = "Bitte gib eine gültige Website an.";
+    website.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
@@ -333,30 +241,6 @@ const validateInputs = () => {
     phone.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
-
-  if (
-    phone.value.value &&
-    (!usePhoneNumberValidator(mobilePhone.value.value) ||
-      useUrlSpotter(mobilePhone.value.value))
-  ) {
-    const errorMessage = "Bitte gib eine gültige Mobilfunknummer an.";
-    mobilePhone.value.errorMsg = errorMessage;
-    errorMessages.value.push(errorMessage);
-  }
-
-  if (useUrlSpotter(company.value.value)) {
-    const errorMessage = "Bitte gib einen gültigen Firmennamen an.";
-    company.value.errorMsg = errorMessage;
-    errorMessages.value.push(errorMessage);
-  }
-
-  if (website.value.value !== "" && !useUrlSpotter(website.value.value)) {
-    const errorMessage = "Bitte gib eine gültige Website an.";
-    website.value.errorMsg = errorMessage;
-    errorMessages.value.push(errorMessage);
-  }
-
-  //////
 
   if (!street.value.value) {
     const errorMessage = "Bitte geben Sie einen Straßennamen an.";
@@ -415,9 +299,10 @@ const validateInputs = () => {
 
 const resetErrorMessages = () => {
   errorMsg.value = "";
-  salutation.value.errorMsg = "";
-  firstName.value.errorMsg = "";
-  lastName.value.errorMsg = "";
+  name.value.errorMsg = "";
+  website.value.errorMsg = "";
+  email.value.errorMsg = "";
+  phone.value.errorMsg = "";
   street.value.errorMsg = "";
   streetNumber.value.errorMsg = "";
   postalCode.value.errorMsg = "";

@@ -1,18 +1,19 @@
 import { serverSupabaseClient, serverSupabaseUser } from "#supabase/server";
 
 export default defineEventHandler(async (event) => {
-  // const query = getQuery(event);
+
+  console.log("hello from get company")
+
+
+  const query = getQuery(event);
   const client = serverSupabaseClient(event);
-  const user = await serverSupabaseUser(event); // check if user is real user
+
+  console.log(query)
 
   const { data, error } = await client
-    .from("contact")
-    .select(
-      `
-  *
-`
-    )
-    .eq("id", user.id);
+    .from("company")
+    .select('*')
+    .eq("id", query.id);
 
   if (error) {
     return {

@@ -36,7 +36,13 @@
         </UIKanbanColumn>
       </ELKanbanBoard> -->
 
-      <ELListView v-if="projectStore.mode === 'list-view'" />
+      <ELListView v-if="projectStore.mode === 'list-view'" >
+        <UIListItem
+          v-for="item in data.data"
+          :key="item.id"
+          :item="item"
+        />
+      </ELListView>
     </template>
   </LOOverview>
 </template>
@@ -46,23 +52,9 @@ const projectStore = useProjectOverviewStore();
 
 const items: any = ref([]);
 
-const { data, pending, error }: any = await useFetch("/api/projects", {
+const { data, pending, error }: any = await useFetch("/api/company/aggregate", {
   method: "GET",
 });
-
-console.log(data)
-
-// const {
-//   data: properties,
-//   pending,
-//   error,
-// }: any = await useFetch("/api/properties", {
-//   method: "GET",
-// });
-
-// onMounted(async () => {
-//   items.value = properties.value.data;
-// });
 
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
 </script>

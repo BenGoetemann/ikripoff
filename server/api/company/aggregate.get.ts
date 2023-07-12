@@ -5,14 +5,7 @@ export default defineEventHandler(async (event) => {
   const client = serverSupabaseClient(event);
   const user = await serverSupabaseUser(event); // check if user is real user
 
-  const { data, error } = await client
-    .from("contact")
-    .select(
-      `
-  *
-`
-    )
-    .eq("id", user.id);
+  const { data, error } = await client.from("company").select("*");
 
   if (error) {
     return {

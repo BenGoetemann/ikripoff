@@ -18,7 +18,7 @@
     "@nuxtjs/tailwindcss": "^6.7.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^14.18.48",
-    "nuxt": "^3.5.2"
+    "nuxt": "^3.6.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

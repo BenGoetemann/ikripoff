@@ -8,7 +8,7 @@ export default {
         tertiary: "#002418",
         attention: "#EA3323",
         borders: "#1E1E1E",
-        decent: "#3D3D3D",
+        decent: "#101010",
       },
       borderRadius: {
         subtile: "0px",

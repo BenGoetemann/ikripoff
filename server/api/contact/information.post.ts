@@ -15,9 +15,9 @@ export default defineEventHandler(async (event) => {
   const lastName = useFormDataValue("lastName", body);
   const phone = useFormDataValue("phone", body);
   const mobilePhone = useFormDataValue("mobilePhone", body);
-  const company = useFormDataValue("company", body);
-  const website = useFormDataValue("website", body);
-  const email = useFormDataValue("email", body);
+  const email = user.email;
+
+  console.log(email)
 
   const validationBody: BackendFormValidationPayload[] = [
     {
@@ -50,21 +50,6 @@ export default defineEventHandler(async (event) => {
       value: mobilePhone,
       validations: ["url:prevent", "tel"],
     },
-    {
-      name: "Firma",
-      value: company,
-      validations: ["url:prevent"],
-    },
-    {
-      name: "Website",
-      value: website,
-      validations: ["url"],
-    },
-    {
-      name: "Kontakt E-Mail",
-      value: email,
-      validations: ["url:prevent", "email"],
-    },
   ];
 
   const isFormValid = useBackendFormValidator(validationBody);
@@ -85,9 +70,7 @@ export default defineEventHandler(async (event) => {
       lastName,
       phone,
       mobilePhone,
-      company,
-      website,
-      email,
+      email
     })
     .eq("id", user.id);
 

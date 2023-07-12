@@ -41,13 +41,16 @@
             : 'pl-[0.4rem] transform-it overflow-hidden'
         "
       >
-        <ELNavItem text="Projekte" iconUrl="/_nuxt/assets/icons/icon-projects.svg" />
-        <!--<ELNavItem text="Anfragen" />-->
-       <!-- <ELNavItem text="Kalender" />-->
-       <!--<ELNavItem text="Services" />-->
-        <ELNavItem text="Profil" iconUrl="/_nuxt/assets/icons/icon-profile.svg" />
-        <ELNavItem prevent text="Logout" @click="signOutUser" iconUrl="/_nuxt/assets/icons/icon-logout.svg" />
-        <ELNavItem text="Login" iconUrl="/_nuxt/assets/icons/icon-login.svg" />
+        <ELNavItem text="Projekte" iconUrl="icons/projects.svg" />
+        <ELNavItem text="Profil" iconUrl="icons/profile.svg" />
+        <ELNavItem text="Unternehmen" iconUrl="icons/profile.svg" />
+        <ELNavItem
+          prevent
+          text="Logout"
+          @click="signOutUser"
+          iconUrl="icons/logout.svg"
+        />
+        <ELNavItem text="Login" iconUrl="icons/login.svg" />
       </section>
     </div>
   </nav>

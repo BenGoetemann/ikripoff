@@ -1,5 +1,5 @@
-export const usePropertyOverviewStore = defineStore("PropertyOverview", {
-  state: () => ({ mode: "kanban-board", tab: "übersicht" }),
+export const useProjectOverviewStore = defineStore("ProjectOverview", {
+  state: () => ({ mode: "list-view", tab: "übersicht" }),
   actions: {
     setMode(slug: string) {
       this.mode = slug;
