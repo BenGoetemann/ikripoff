@@ -36,19 +36,25 @@
         </UIKanbanColumn>
       </ELKanbanBoard> -->
 
-      <ELListView v-if="projectStore.mode === 'list-view'" >
-        <UIListItem
-          v-for="item in data.data"
-          :key="item.id"
-          :item="item"
-        />
+      <ELListView v-if="projectStore.mode === 'list-view'">
+        <UIListItem v-for="item in data.data" :key="item.id" :item="item" />
       </ELListView>
+      <div class="safe-area-l">
+        <UIButtonPrimary
+          shrink
+          icon="plus"
+          text="Unternehmen erstellen"
+          @click="router.push('unternehmen/erstellen')"
+        />
+      </div>
     </template>
   </LOOverview>
 </template>
 
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
+
+const router = useRouter();
 
 const items: any = ref([]);
 

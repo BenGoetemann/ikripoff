@@ -4,7 +4,11 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+const router = useRouter();
+
+</script>
 
 <style lang="css" scoped>
 .list-view-wrapper {
