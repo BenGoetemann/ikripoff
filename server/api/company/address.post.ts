@@ -17,8 +17,6 @@ export default defineEventHandler(async (event) => {
   const postalCode = useFormDataValue("postalCode", body);
   const city = useFormDataValue("city", body);
 
-  console.log(body);
-
   const validationBody: BackendFormValidationPayload[] = [
     {
       name: "Straße",

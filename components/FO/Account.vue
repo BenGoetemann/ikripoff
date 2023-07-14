@@ -66,7 +66,6 @@ const isPending = ref(false);
 // Inputs
 const email: Ref<InputRef<string>> = ref({
   value: "",
-  value: "",
   errorMsg: "",
 });
 
@@ -93,7 +92,7 @@ const deleteAccount = async () => {
     ) === false
   )
     return;
-  const { data, error }: any = await $fetch("api/account/delete", {
+  const data: any = await $fetch("api/account/delete", {
     method: "POST",
     body: JSON.stringify({
       id: user.value!.id,

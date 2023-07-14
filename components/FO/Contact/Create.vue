@@ -3,10 +3,10 @@
     <h3>Person</h3>
     <UIInputDropdown
       name="Anrede"
+      required
       :value="salutation.value"
       @update="(e) => (salutation.value = e)"
       :error-message="salutation.errorMsg"
-      required
       :loading="isPending"
       :disabled="disabled"
       :options="[
@@ -25,14 +25,14 @@
       ]"
     />
     <UIInputDropdown
-  name="Titel"
-  :value="title.value"
-  @update="(e) => (title.value = e)"
-  :error-message="title.errorMsg"
-  :loading="isPending"
-  :disabled="disabled"
-  :options="titleTypeOptions"
-/>
+      name="Titel"
+      :value="title.value"
+      @update="(e) => (title.value = e)"
+      :error-message="title.errorMsg"
+      :loading="isPending"
+      :disabled="disabled"
+      :options="titleOptions"
+    />
 
     <UIInputText
       type="text"
@@ -74,22 +74,19 @@
     />
     <UIButtonPrimary
       :disabled="disabled"
-      icon="user"
+      icon="user-plus"
       shrink
-      @click="update"
-      text="Person aktualisieren"
+      @click="updateOrCreateProfile"
+      text="Profil erstellen"
     />
-    <p class="error-message" v-if="errorMsg">{{ errorMsg }}</p>
   </form>
 </template>
 
 <script setup lang="ts">
-import { useUrlSpotter } from "~/composables/useFormHelper";
-import { useFormToast } from "~/composables/useToastHelper";
+const user = useSupabaseUser();
+const router = useRouter();
 
-const route = useRoute();
-
-const titleTypeOptions: Option<Title>[] = [
+const titleOptions: Option<Title>[] = [
   {
     value: "dr.",
     label: "Dr.",
@@ -104,30 +101,6 @@ const titleTypeOptions: Option<Title>[] = [
   },
 ];
 
-
-const props = defineProps<{
-  data: any;
-}>();
-
-onMounted(() => {
-  fillPreloadedValues();
-});
-
-const fillPreloadedValues = () => {
-  if (props.data.data.length > 0) {
-    const contact = props.data.data[0];
-
-    console.log(contact);
-
-    title.value.value = contact.title;
-    salutation.value.value = contact.salutation;
-    firstName.value.value = contact.firstName;
-    lastName.value.value = contact.lastName;
-    phone.value.value = contact.phone;
-    mobilePhone.value.value = contact.mobilePhone;
-  }
-};
-
 // Feedback
 
 const errorMsg = ref();
@@ -136,13 +109,12 @@ const isPending = ref(false);
 
 // Inputs
 
-const title: Ref<InputRef<Title | "">> = ref({
+const salutation: Ref<InputRef<Salutation | "">> = ref({
   value: "",
   errorMsg: "",
 });
 
-
-const salutation: Ref<InputRef<Salutation  | "">> = ref({
+const title: Ref<InputRef<Title | "">> = ref({
   value: "",
   errorMsg: "",
 });
@@ -167,18 +139,20 @@ const mobilePhone: Ref<InputRef<string>> = ref({
   errorMsg: "",
 });
 
-const update = async () => {
+const updateOrCreateProfile = async () => {
   resetErrorMessages();
   disabled.value = true;
 
   let formData = new FormData();
 
+  formData.append("id", user.value!.id);
   formData.append("salutation", salutation.value.value);
   formData.append("title", title.value.value);
   formData.append("firstName", firstName.value.value);
   formData.append("lastName", lastName.value.value);
   formData.append("phone", phone.value.value);
   formData.append("mobilePhone", mobilePhone.value.value);
+
   // error handling
   if (!validateInputs()) {
     disabled.value = false;
@@ -186,18 +160,20 @@ const update = async () => {
   }
 
   // request
-  const { data, pending, error } = await useFetch("api/contact/information", {
+  const { data, pending, error }: any = await useFetch("../api/contact/create", {
     method: "POST",
     body: formData,
   });
 
+  let ok = data.value.status === 200;
+
   useFormToast(
-    data.value.error,
-    "Ihre Kontaktdaten wurden aktualisiert",
-    "Ihre Kontaktdaten konnten nicht aktualisiert werden. Grund: "
+    !ok,
+    "Ihr Profil wurde erfolgreich erstellt.",
+    "Ihr Profil konnte nicht erstellt werden. "
   );
 
-  isPending.value = pending.value;
+  if (ok) await navigateTo("/profil");
 
   disabled.value = false;
 };
@@ -235,13 +211,21 @@ const validateInputs = () => {
     errorMessages.value.push(errorMessage);
   }
 
-  if (useUrlSpotter(phone.value.value)) {
+  if (
+    phone.value.value &&
+    (!usePhoneNumberValidator(phone.value.value) ||
+      useUrlSpotter(phone.value.value))
+  ) {
     const errorMessage = "Bitte gib eine gültige Telefonnummer an.";
     phone.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);
   }
 
-  if (useUrlSpotter(mobilePhone.value.value)) {
+  if (
+    phone.value.value &&
+    (!usePhoneNumberValidator(mobilePhone.value.value) ||
+      useUrlSpotter(mobilePhone.value.value))
+  ) {
     const errorMessage = "Bitte gib eine gültige Mobilfunknummer an.";
     mobilePhone.value.errorMsg = errorMessage;
     errorMessages.value.push(errorMessage);

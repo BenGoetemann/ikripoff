@@ -11,7 +11,7 @@ export const signInUser = async (credentials: any) => {
   const client = useSupabaseAuthClient();
   const router = useRouter();
   const { error } = await client.auth.signInWithPassword(credentials);
-  router.push("/");
+  await navigateTo("/");
   const navStore = useNavStore();
   navStore.setCurrentPage("");
   return {

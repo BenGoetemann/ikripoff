@@ -3,11 +3,9 @@ import {
   useBackendFormValidator,
   useFormDataValue,
 } from "~~/composables/useFormHelper";
-import { createHash } from "crypto";
-import fileType from "file-type";
+
 
 export default defineEventHandler(async (event) => {
-  const ADDRESS_ALREADY_EXISTS = "23505";
 
   const body = await readMultipartFormData(event);
   const client = serverSupabaseClient(event);
@@ -16,9 +14,6 @@ export default defineEventHandler(async (event) => {
   const website = useFormDataValue("website", body);
   const email = useFormDataValue("email", body);
   const phone = useFormDataValue("phone", body);
-
-  const thumbnail = useFormDataValue("thumbnail", body, "image");
-  const extention = fileType(Buffer.from(thumbnail, "base64"));
 
   const street = useFormDataValue("street", body);
   const streetNumber = useFormDataValue("streetNumber", body);
@@ -49,22 +44,22 @@ export default defineEventHandler(async (event) => {
     {
       name: "Straße",
       value: street,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Hausnummer",
       value: streetNumber,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Postleitzahl",
       value: postalCode,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Stadt",
       value: city,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
   ];
 
@@ -97,6 +92,7 @@ export default defineEventHandler(async (event) => {
   if (companyError) {
     return {
       status: 500,
+      data: null,
       error: companyError,
     };
   }

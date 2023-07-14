@@ -3,31 +3,26 @@ import {
   useBackendFormValidator,
   useFormDataValue,
 } from "~~/composables/useFormHelper";
-import { createHash } from "crypto";
-import fileType from "file-type";
 
 export default defineEventHandler(async (event) => {
   const body = await readMultipartFormData(event);
   const client = serverSupabaseClient(event);
   const user = await serverSupabaseUser(event); // check if user is real user
 
-  const id = user.id;
+  const id = user!.id;
   const salutation = useFormDataValue("salutation", body);
   const title = useFormDataValue("title", body);
   const firstName = useFormDataValue("firstName", body);
   const lastName = useFormDataValue("lastName", body);
   const phone = useFormDataValue("phone", body);
   const mobilePhone = useFormDataValue("mobilePhone", body);
-  const email = user.email;
-
-  const thumbnail = useFormDataValue("image", body, "image");
-  const extention = fileType(Buffer.from(thumbnail, "base64"));
+  const email = user!.email;
 
   const validationBody: BackendFormValidationPayload[] = [
     {
       name: "Anrede",
       value: salutation,
-      validations: ["url:prevent"],
+      validations: ["required", "url:prevent"],
     },
     {
       name: "Titel",
@@ -66,46 +61,46 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  let thumbnailUrl = null;
+  // let thumbnailUrl = null;
 
-  if (thumbnail.length > 0) {
-    if (
-      extention.mime !== "image/webp" &&
-      extention.mime !== "image/jpg" &&
-      extention.mime !== "image/jpeg" &&
-      extention.mime !== "image/png"
-    ) {
-      console.log("filetype");
-      return {
-        status: 415,
-        data: null,
-        error: "Filetype not allowed",
-      };
-    }
+  // if (thumbnail.length > 0) {
+  //   if (
+  //     extention.mime !== "image/webp" &&
+  //     extention.mime !== "image/jpg" &&
+  //     extention.mime !== "image/jpeg" &&
+  //     extention.mime !== "image/png"
+  //   ) {
+  //     console.log("filetype");
+  //     return {
+  //       status: 415,
+  //       data: null,
+  //       error: "Filetype not allowed",
+  //     };
+  //   }
 
-    const { data: thumbnailResponse, error: thumbnailError } =
-      await client.storage
-        .from("contactThumbnails")
-        .upload(`${id}.${extention.ext}`, thumbnail, {
-          upsert: true,
-          cacheControl: "1",
-        });
+  //   const { data: thumbnailResponse, error: thumbnailError } =
+  //     await client.storage
+  //       .from("contactThumbnails")
+  //       .upload(`${id}.${extention.ext}`, thumbnail, {
+  //         upsert: true,
+  //         cacheControl: "1",
+  //       });
 
-    if (thumbnailError) {
-      console.error("Image Upload Error", thumbnailError);
-      return {
-        status: 500,
-        data: null,
-        error: thumbnailError,
-      };
-    }
+  //   if (thumbnailError) {
+  //     console.error("Image Upload Error", thumbnailError);
+  //     return {
+  //       status: 500,
+  //       data: null,
+  //       error: thumbnailError,
+  //     };
+  //   }
 
-    const { data: thumbnailPublicUrl } = await client.storage
-      .from("contactThumbnails")
-      .getPublicUrl(thumbnailResponse.path);
+  //   const { data: thumbnailPublicUrl } = await client.storage
+  //     .from("contactThumbnails")
+  //     .getPublicUrl(thumbnailResponse.path);
 
-    thumbnailUrl = thumbnailPublicUrl.publicUrl;
-  }
+  //   thumbnailUrl = thumbnailPublicUrl.publicUrl;
+  // }
 
   const requestBody: any = {
     id,
@@ -118,7 +113,7 @@ export default defineEventHandler(async (event) => {
     email
   };
 
-  if (thumbnail.length > 0) requestBody.thumbnail = thumbnailUrl;
+  // if (thumbnail.length > 0) requestBody.thumbnail = thumbnailUrl;
 
   const { data: contact, error: contactError } = await client
     .from("contact")
@@ -128,6 +123,7 @@ export default defineEventHandler(async (event) => {
   if (contactError) {
     return {
       status: 500,
+      data: null,
       error: contactError,
     };
   }

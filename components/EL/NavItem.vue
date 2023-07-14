@@ -16,6 +16,7 @@ const props = defineProps<{
   text: string;
   prevent?: boolean;
   override?: string;
+  iconUrl?: string;
 }>();
 
 const isActive = computed(() => {

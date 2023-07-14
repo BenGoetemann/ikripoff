@@ -17,34 +17,29 @@ model company {
     website String? @db.VarChar(100)
     phone   String? @db.VarChar(50)
     email   String  @unique @db.VarChar(50)
-
-    thumbnail String?
-
+    
     // ADDRESS
-    street       String  @db.VarChar(50)
-    streetNumber String  @db.VarChar(10)
-    postalCode   String  @db.VarChar(50)
-    city         String  @db.VarChar(50)
+    street       String? @db.VarChar(50)
+    streetNumber String? @db.VarChar(10)
+    postalCode   String? @db.VarChar(50)
+    city         String? @db.VarChar(50)
 
     contacts contact[]
-
 }
 
 model contact {
-    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+    id String @id @db.Uuid
 
     timestamp DateTime @default(now())
 
-    salutation  String? @db.VarChar(50)
+    salutation  String @db.VarChar(50)
     title       String? @db.VarChar(50)
-    firstName   String? @db.VarChar(50)
+    firstName   String @db.VarChar(50)
     lastName    String  @db.VarChar(50)
     phone       String? @db.VarChar(50)
     mobilePhone String? @db.VarChar(50)
-    email       String? @db.VarChar(50)
+    email       String @db.VarChar(50)
 
-    company company @relation(fields: [companyId], references: [id])
-    companyId String @db.Uuid
-
-    thumbnail String?
+    company   company? @relation(fields: [companyId], references: [id])
+    companyId String?  @db.Uuid
 }

@@ -7,7 +7,7 @@
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOCreateNewCompany class="safe-area-b" />
+          <FOCompanyCreate class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
     </template>

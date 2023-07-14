@@ -7,8 +7,7 @@
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOCompanyInformation :data="data" class="safe-area-b" />
-          <FOCompanyAddress :data="data" class="safe-area-b" />
+          <FOCompanyUpdate :data="data" class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
     </template>

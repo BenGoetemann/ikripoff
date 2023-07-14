@@ -48,7 +48,6 @@ const isLoading = ref(props.loading);
 
 onUpdated(() => {
   emit("update", inputValue.value);
-  console.log("4 - Updated from Dropdown.vue sended: ", inputValue.value);
 });
 
 watch(
@@ -62,7 +61,6 @@ watch(
   () => props.value,
   (value) => {
     inputValue.value = value;
-    console.log("3 - Updated Dropdown.vue to: ", inputValue.value);
   }
 );
 

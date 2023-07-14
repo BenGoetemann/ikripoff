@@ -7,7 +7,7 @@
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOCreateNewContact class="safe-area-b" />
+          <FOContactCreate class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
     </template>

@@ -8,7 +8,7 @@ export const useFormToast = (
   if (!error) {
     useToast().success(successMessage);
   } else {
-    useToast().error(`${errorMessage}: ${error.join(" ")}`);
+    useToast().error(errorMessage);
   }
 };
 

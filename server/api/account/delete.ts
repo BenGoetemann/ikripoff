@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
   if (contactError) {
     return {
       status: 500,
+      data: null,
       error: contactError,
     };
   }
@@ -28,6 +29,7 @@ export default defineEventHandler(async (event) => {
   if (profileImageRemovalError) {
     return {
       status: 500,
+      data: null,
       error: profileImageRemovalError,
     };
   }

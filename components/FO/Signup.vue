@@ -29,7 +29,8 @@
       @update="(e) => (privacyConsent.value = e)"
       :error="privacyConsent.error"
     >
-      Ich stimme zu, dass ich die Datenschutzerklärung gelesen und akzeptiert habe.
+      Ich stimme zu, dass ich die Datenschutzerklärung gelesen und akzeptiert
+      habe.
     </UIInputCheckbox>
     <UIButtonPrimary
       :disabled="disabled"
@@ -41,12 +42,12 @@
     <!-- <p class="error-message" v-if="errorMsg">{{ errorMsg }}</p> -->
   </form>
   <div v-else-if="status === 'success'">
-    <UIIcon name="check-circle" size="2x" />
+    <!-- <UIIcon name="check-circle" size="2x" /> -->
     <p class="success-message">
-      Bitte bestätige deine E-Mail-Adresse, indem du auf den Link in der E-Mail klickst, die wir dir gerade gesendet haben.
+      Bitte bestätige deine E-Mail-Adresse, indem du auf den Link in der E-Mail
+      klickst, die wir dir gerade gesendet haben.
     </p>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -95,9 +96,13 @@ const signUpWithEmail = async () => {
 
   const { error } = await signUpUser(loginRequest);
 
-  useFormToast(error, "Eine Bestätigungsmail wurde an deine E-Mail-Adresse gesendet.", "Versenden der Bestätigungsmail fehlgeschlagen: ")
+  useFormToast(
+    error,
+    "Eine Bestätigungsmail wurde an deine E-Mail-Adresse gesendet.",
+    "Versenden der Bestätigungsmail fehlgeschlagen: "
+  );
 
-  if(!error) {
+  if (!error) {
     status.value = "success";
   }
   disabled.value = false;

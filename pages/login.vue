@@ -35,8 +35,8 @@ const showLoginForm = () => {
 
 watch(user, () => {
   if (user.value) {
-    router.push("/projekte");
     userStore.setIsAutheticated(true);
+    return navigateTo("/projekte");
   }
 });
 
