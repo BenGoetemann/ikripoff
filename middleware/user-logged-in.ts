@@ -4,6 +4,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   if (user.value) {
     userStore.setIsAutheticated(true);
-    return navigateTo("/immobilien");
+    return navigateTo("/projekte");
   }
 });

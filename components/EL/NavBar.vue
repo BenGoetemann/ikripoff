@@ -43,7 +43,9 @@
       >
         <ELNavItem text="Projekte" iconUrl="icons/projects.svg" />
         <ELNavItem text="Profil" iconUrl="icons/profile.svg" />
-        <ELNavItem text="Unternehmen" iconUrl="icons/profile.svg" />
+        <WRAdmin>
+          <ELNavItem text="Unternehmen" iconUrl="icons/profile.svg" />
+        </WRAdmin>
         <ELNavItem
           prevent
           text="Logout"
