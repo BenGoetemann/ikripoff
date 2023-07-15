@@ -2,7 +2,9 @@
   <LOOverview>
     <template #header>
       <ELBreadcrumb />
-      <UIButtonPrimary shrink icon="plus" text="Projekt anfragen" />
+      <WRAdmin>
+        <UIButtonPrimary shrink icon="plus" text="Projekt anlegen" @click="navigateTo('/projekte/erstellen')" />
+      </WRAdmin>
     </template>
     <template #main>
       <div class="flex-row-start mb-4 safe-area-l safe-area-r">
@@ -50,7 +52,7 @@ const { data, pending, error }: any = await useFetch("/api/projects", {
   method: "GET",
 });
 
-console.log(data)
+console.log(data);
 
 // const {
 //   data: properties,

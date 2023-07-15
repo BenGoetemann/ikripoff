@@ -2,7 +2,7 @@
   <LOOverview>
     <template #header>
       <ELBreadcrumb />
-      <UIButtonPrimary shrink icon="plus" text="Projekt anfragen" />
+      <UIButtonPrimary shrink icon="plus" text="Projekt anlegen" @click="navigateTo('/projekte/erstellen')" />
     </template>
     <template #main>
       <UIContainerFluid>

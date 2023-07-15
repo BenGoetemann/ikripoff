@@ -77,6 +77,47 @@
       @update="(e) => (city.value = e)"
       :error-message="city.errorMsg"
     />
+    <h3>Kontakte verwalten</h3>
+
+    <section class="contact-to-company-wrapper">
+      <div>
+        <UIChipSelectable
+          @toggle="tradeContact(contact)"
+          v-for="(contact, index) in contacts"
+          :key="index"
+          :contact="contact"
+        >
+          {{
+            contact.firstName +
+            " " +
+            contact.lastName +
+            " <" +
+            contact.email +
+            ">"
+          }}
+        </UIChipSelectable>
+      </div>
+
+      <div>
+        <UIChipSelectable
+          @toggle="tradeContact(contact)"
+          remove
+          v-for="(contact, index) in contactsToCompany"
+          :key="index"
+          :contact="contact"
+        >
+          {{
+            contact.firstName +
+            " " +
+            contact.lastName +
+            " <" +
+            contact.email +
+            ">"
+          }}
+        </UIChipSelectable>
+      </div>
+    </section>
+
     <UIButtonPrimary
       :disabled="disabled"
       icon="user-plus"
@@ -89,6 +130,8 @@
 </template>
 
 <script setup lang="ts">
+import { on } from "events";
+
 const router = useRouter();
 
 // Feedback
@@ -96,6 +139,33 @@ const router = useRouter();
 const errorMsg = ref();
 const disabled = ref(false);
 const isPending = ref(false);
+
+const contactsToCompany: Ref<any> = ref(new Set());
+const contacts: Ref<any> = ref(new Set());
+
+const {
+  data: contactsResponse,
+  pending,
+  error,
+}: any = await useFetch("/api/contact/aggregate", { method: "GET" });
+
+onMounted(() => {
+  if (contactsResponse.value.data) {
+    contactsResponse.value.data.forEach((contact: any) => {
+      contacts.value.add(contact);
+    });
+  }
+});
+
+const tradeContact = (contact: any) => {
+  if (contactsToCompany.value.has(contact)) {
+    contactsToCompany.value.delete(contact);
+    contacts.value.add(contact);
+  } else {
+    contactsToCompany.value.add(contact);
+    contacts.value.delete(contact);
+  }
+};
 
 // Inputs
 
@@ -116,12 +186,6 @@ const email: Ref<InputRef<string>> = ref({
 
 const phone: Ref<InputRef<string>> = ref({
   value: "",
-  errorMsg: "",
-});
-
-const image = ref({
-  value: "",
-  preloadedValue: "",
   errorMsg: "",
 });
 
@@ -160,6 +224,10 @@ const updateOrCreateProfile = async () => {
   formData.append("streetNumber", streetNumber.value.value);
   formData.append("postalCode", postalCode.value.value);
   formData.append("city", city.value.value);
+  formData.append(
+    "contacts",
+    JSON.stringify(Array.from(contactsToCompany.value))
+  );
 
   // error handling
   if (!validateInputs()) {
@@ -168,10 +236,13 @@ const updateOrCreateProfile = async () => {
   }
 
   // request
-  const { data, pending, error }: any = await useFetch("../api/company/create", {
-    method: "POST",
-    body: formData,
-  });
+  const { data, pending, error }: any = await useFetch(
+    "../api/company/create",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   let ok = data.value.status === 200;
 

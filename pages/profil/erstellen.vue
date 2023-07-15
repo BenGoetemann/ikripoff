@@ -17,7 +17,7 @@
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
 
-definePageMeta({ middleware: ["auth", "user-has-no-profile"] });
+definePageMeta({ middleware: ["auth"] });
 </script>
 
 <style lang="css" scoped>

@@ -4,9 +4,7 @@ import {
   useFormDataValue,
 } from "~~/composables/useFormHelper";
 
-
 export default defineEventHandler(async (event) => {
-
   const body = await readMultipartFormData(event);
   const client = serverSupabaseClient(event);
 
@@ -19,6 +17,9 @@ export default defineEventHandler(async (event) => {
   const streetNumber = useFormDataValue("streetNumber", body);
   const postalCode = useFormDataValue("postalCode", body);
   const city = useFormDataValue("city", body);
+
+  const contactArray = useFormDataValue("contacts", body);
+  const contacts = contactArray ? JSON.parse(contactArray) : [];
 
   const validationBody: BackendFormValidationPayload[] = [
     {
@@ -84,10 +85,27 @@ export default defineEventHandler(async (event) => {
     city,
   };
 
-  const { data: company, error: companyError } = await client
+  const { data: company, error: companyError }: any = await client
     .from("company")
     .upsert({ ...requestBody })
     .select();
+
+  console.log(company[0].id);
+
+  for (const contact of contacts) {
+    const { data: contactData, error: contactError }: any = await client
+      .from("contact")
+      .update({ companyId: company[0].id })
+      .eq("id", contact.id);
+
+    if (contactError) {
+      return {
+        status: 500,
+        data: null,
+        error: contactError,
+      };
+    }
+  }
 
   if (companyError) {
     return {

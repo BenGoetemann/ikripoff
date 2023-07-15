@@ -14,7 +14,7 @@
 
 <style lang="css" scoped>
 .page-wrapper {
-  @apply flex-row-start;
+  @apply flex flex-row justify-start items-start;
 }
 
 main {

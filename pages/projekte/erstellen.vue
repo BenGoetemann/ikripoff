@@ -2,12 +2,22 @@
   <LOOverview>
     <template #header>
       <ELBreadcrumb />
-      <UIButtonPrimary shrink icon="plus" text="Objekt anlegen" />
+      <WRAdmin>
+        <UIButtonPrimary
+          shrink
+          icon="plus"
+          text="Projekt anlegen"
+          @click="navigateTo('/projekte/erstellen')"
+        />
+      </WRAdmin>
     </template>
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOProperty class="safe-area-b" />
+          <!-- <FOProperty class="safe-area-b" /> -->
+          <div v-for="(project, index) in data.data" :key="index">
+            {{ project.name }}
+          </div>
         </UIContainerBorder>
       </UIContainerFluid>
     </template>
@@ -16,6 +26,13 @@
 
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
+
+const { data, pending, error } = await useFetch(`/api/projects`, {
+  method: "GET",
+  // query: {
+  //   id: route.params.slug,
+  // },
+});
 
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
 </script>

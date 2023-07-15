@@ -2,7 +2,9 @@
   <LOOverview>
     <template #header>
       <ELBreadcrumb />
-      <UIButtonPrimary shrink icon="plus" text="Objekt anlegen" />
+           <WRAdmin>
+        <UIButtonPrimary shrink icon="plus" text="Projekt anlegen" @click="navigateTo('/projekte/erstellen')" />
+      </WRAdmin>
     </template>
     <template #main>
       <UIContainerFluid>
@@ -18,6 +20,7 @@
 // const projectStore = useProjectOverviewStore();
 
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
+
 </script>
 
 <style lang="css" scoped>

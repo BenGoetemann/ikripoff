@@ -84,7 +84,6 @@
 
 <script setup lang="ts">
 const user = useSupabaseUser();
-const router = useRouter();
 
 const titleOptions: Option<Title>[] = [
   {
@@ -173,9 +172,8 @@ const updateOrCreateProfile = async () => {
     "Ihr Profil konnte nicht erstellt werden. "
   );
 
-  if (ok) await navigateTo("/profil");
-
   disabled.value = false;
+  if (ok) return navigateTo("/projekte");
 };
 
 const validateInputs = () => {

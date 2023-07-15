@@ -20,6 +20,14 @@ export default defineEventHandler(async (event) => {
   const postalCode = useFormDataValue("postalCode", body);
   const city = useFormDataValue("city", body);
 
+  const contactArray = useFormDataValue("contacts", body);
+  const contacts = contactArray ? JSON.parse(contactArray) : [];
+
+  const removeContactArray = useFormDataValue("removeContacts", body);
+  const removeContacts = removeContactArray
+    ? JSON.parse(removeContactArray)
+    : [];
+
   const validationBody: BackendFormValidationPayload[] = [
     {
       name: "Titel",
@@ -44,22 +52,22 @@ export default defineEventHandler(async (event) => {
     {
       name: "Straße",
       value: street,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Hausnummer",
       value: streetNumber,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Postleitzahl",
       value: postalCode,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
     {
       name: "Stadt",
       value: city,
-      validations: ["required", "url:prevent"],
+      validations: ["url:prevent"],
     },
   ];
 
@@ -84,7 +92,38 @@ export default defineEventHandler(async (event) => {
       postalCode,
       city,
     })
-    .eq("id", query.id);
+    .eq("id", query.id)
+    .select();
+
+  for (const contact of contacts) {
+    const { data: contactData, error: contactError }: any = await client
+      .from("contact")
+      .update({ companyId: company[0].id })
+      .eq("id", contact.id);
+
+    if (contactError) {
+      return {
+        status: 500,
+        data: null,
+        error: contactError,
+      };
+    }
+  }
+
+  for (const contact of removeContacts) {
+    const { data: contactData, error: contactError }: any = await client
+      .from("contact")
+      .update({ companyId: null })
+      .eq("id", contact.id);
+
+    if (contactError) {
+      return {
+        status: 500,
+        data: null,
+        error: contactError,
+      };
+    }
+  }
 
   if (companyError) {
     return {
