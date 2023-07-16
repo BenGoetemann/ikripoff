@@ -1,16 +1,23 @@
 <template>
-  <textarea
-    class="input"
-    :class="{ error: hasError, disabled: isDisabled }"
-    :required="required"
-    :disabled="disabled"
-    :placeholder="name"
-    :name="underlineSpaces(name)"
-    :ref="underlineSpaces(name)"
-    :rows="5"
-    v-model="inputValue"
-  />
-  <p class="error-message" v-if="hasError">{{ errorMessage }}</p>
+  <div class="input-wrapper">
+    <label :for="underlineSpaces(name)"
+      ><p>
+        {{ capitalizeWords(name) }} {{ required ? "" : "- optional" }}
+      </p></label
+    >
+    <textarea
+      class="input"
+      :class="{ error: hasError, disabled: isDisabled }"
+      :required="required"
+      :disabled="disabled"
+      :placeholder="name"
+      :name="underlineSpaces(name)"
+      :ref="underlineSpaces(name)"
+      :rows="5"
+      v-model="inputValue"
+    />
+    <p class="error-message" v-if="hasError">{{ errorMessage }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +25,7 @@ const emit = defineEmits(["update"]);
 
 const props = defineProps<{
   name: string;
+  value?: string;
   required?: boolean;
   disabled?: boolean;
   errorMessage?: string;
@@ -42,6 +50,13 @@ watch(
   () => props.disabled,
   (value) => {
     isDisabled.value = value;
+  }
+);
+
+watch(
+  () => props.value,
+  (value) => {
+    inputValue.value = value;
   }
 );
 </script>

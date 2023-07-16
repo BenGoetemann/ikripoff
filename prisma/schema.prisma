@@ -9,7 +9,7 @@ generator client {
 }
 
 model company {
-    id String @id @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+    id String @id @unique @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
 
     timestamp DateTime @default(now())
 
@@ -17,28 +17,56 @@ model company {
     website String? @db.VarChar(100)
     phone   String? @db.VarChar(50)
     email   String  @unique @db.VarChar(50)
-    
+
     // ADDRESS
     street       String? @db.VarChar(50)
     streetNumber String? @db.VarChar(10)
     postalCode   String? @db.VarChar(50)
     city         String? @db.VarChar(50)
 
-    contacts contact[]
+    contacts         contact[]
+    projectToCompany projectToCompany[]
+}
+
+model project {
+    id          String   @id @unique @default(dbgenerated("extensions.gen_random_uuid()")) @db.Uuid
+    timestamp   DateTime @default(now())
+    title       String   @db.VarChar(100)
+    description String?  @db.VarChar(3000)
+
+    projectToCompany projectToCompany[]
+    projectToFolder  projectToFolder[]
+}
+
+model projectToCompany {
+    company   company @relation(fields: [companyId], references: [id])
+    companyId String  @db.Uuid
+    project   project @relation(fields: [projectId], references: [id])
+    projectId String  @db.Uuid
+
+    @@id([companyId, projectId])
+}
+
+model projectToFolder {
+    project   project @relation(fields: [projectId], references: [id])
+    projectId String  @db.Uuid
+    folderId  String  @db.Uuid
+
+    @@id([projectId, folderId])
 }
 
 model contact {
-    id String @id @db.Uuid
+    id String @id @unique @db.Uuid
 
     timestamp DateTime @default(now())
 
-    salutation  String @db.VarChar(50)
+    salutation  String  @db.VarChar(50)
     title       String? @db.VarChar(50)
-    firstName   String @db.VarChar(50)
+    firstName   String  @db.VarChar(50)
     lastName    String  @db.VarChar(50)
     phone       String? @db.VarChar(50)
     mobilePhone String? @db.VarChar(50)
-    email       String @db.VarChar(50)
+    email       String  @db.VarChar(50)
 
     company   company? @relation(fields: [companyId], references: [id])
     companyId String?  @db.Uuid

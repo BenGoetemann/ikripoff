@@ -1,18 +1,18 @@
 <template>
   <div class="chip-selectable-wrapper">
-    <p><slot></slot></p>
     <icon
       @click="toggle"
       v-if="remove"
-      class="text-xl text-red-900"
+      class="text-xl text-red-900 cursor-pointer"
       :icon="['fas', 'circle-minus']"
     />
     <icon
       @click="toggle"
       v-else
-      class="text-xl text-primary"
+      class="text-xl text-primary cursor-pointer"
       :icon="['fas', 'circle-plus']"
     />
+    <p><slot></slot></p>
   </div>
 </template>
 
@@ -20,7 +20,7 @@
 const emit = defineEmits(["toggle"]);
 
 const props = defineProps<{
-  remove: boolean;
+  remove?: boolean;
 }>();
 
 const toggle = () => {

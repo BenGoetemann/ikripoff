@@ -16,29 +16,13 @@
           <UIInputSearch callToAction="Projekt suchen" name="Test" />
         </div>
         <nav>
-          <!-- <ELUIToggle type="mode" :store="projectStore" text="Kanban Board" /> -->
           <ELUIToggle type="mode" :store="projectStore" text="List View" />
-          <!-- <ELUIToggle type="mode" :store="projectStore" text="Filter" /> -->
         </nav>
       </div>
-      <!-- <ELKanbanBoard v-if="!pending && projectStore.mode === 'kanban-board'">
-        <UIKanbanColumn
-          v-for="(item, index) in items"
-          :key="index"
-          :name="item.name"
-        >
-          <ELPropertyItem
-            v-for="property in item.items"
-            :key="property.id"
-            :address="`${property.address.street} ${property.address.streetNumber}, ${property.address.postalCode} ${property.address.city}`"
-            :requestCount="1"
-            :thumbnail="property.thumbnail"
-            :platforms="['Immobilienscout24', 'Immonet']"
-          />
-        </UIKanbanColumn>
-      </ELKanbanBoard> -->
-
-      <ELListView v-if="projectStore.mode === 'list-view'" />
+     
+      <ELListView v-if="projectStore.mode === 'list-view'" >
+        <UIListProjectItem v-for="item in data.data" :key="item.id" :item="item" />
+      </ELListView>
     </template>
   </LOOverview>
 </template>
@@ -46,25 +30,11 @@
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
 
-const items: any = ref([]);
-
-const { data, pending, error }: any = await useFetch("/api/projects", {
+const { data, pending, error }: any = await useFetch("/api/projects/aggregate", {
   method: "GET",
 });
 
-console.log(data);
-
-// const {
-//   data: properties,
-//   pending,
-//   error,
-// }: any = await useFetch("/api/properties", {
-//   method: "GET",
-// });
-
-// onMounted(async () => {
-//   items.value = properties.value.data;
-// });
+console.log(data)
 
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
 </script>

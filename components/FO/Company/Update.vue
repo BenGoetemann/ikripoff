@@ -79,7 +79,7 @@
 
     <h3>Kontakte verwalten</h3>
 
-    <section class="contact-to-company-wrapper">
+    <section class="relation-wrapper">
       <div>
         <UIChipSelectable
           @toggle="tradeContact(contact)"
@@ -285,8 +285,6 @@ const update = async () => {
     body: formData,
     query: { id: route.params.slug },
   });
-
-  console.log(data);
 
   useFormToast(
     data.value.error,

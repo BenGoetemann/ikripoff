@@ -14,7 +14,7 @@
     <template #main>
       <UIContainerFluid>
         <UIContainerBorder>
-          <FOProjectsCreate class="safe-area-b" />
+          <FOProjectsUpdate :data="data" class="safe-area-b" />
         </UIContainerBorder>
       </UIContainerFluid>
     </template>
@@ -22,6 +22,15 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
+
+const { data, pending, error } = await useFetch(`/api/projects/get`, {
+  method: "GET",
+  query: {
+    id: route.params.slug,
+  },
+});
+
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
 </script>
 

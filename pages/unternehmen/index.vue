@@ -18,7 +18,7 @@
         </nav>
       </div>
       <ELListView v-if="projectStore.mode === 'list-view'">
-        <UIListItem v-for="item in data.data" :key="item.id" :item="item" />
+        <UIListCompanyItem v-for="item in data.data" :key="item.id" :item="item" />
       </ELListView>
       <div class="safe-area-l">
         <UIButtonPrimary
@@ -34,10 +34,6 @@
 
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
-
-const router = useRouter();
-
-const items: any = ref([]);
 
 const { data, pending, error }: any = await useFetch("/api/company/aggregate", {
   method: "GET",

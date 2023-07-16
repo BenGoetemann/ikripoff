@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const company = ref();
 
 const { data, pending, error } = await useFetch(`/api/company/get`, {
   method: "GET",
