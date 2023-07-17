@@ -288,14 +288,11 @@ const updateOrCreateProfile = async () => {
   }
 
   // request
-  const { data, pending, error }: any = await useFetch(
-    "../api/projects/update",
-    {
-      method: "POST",
-      body: formData,
-      query: { id: route.params.slug },
-    }
-  );
+  const { data, pending, error }: any = await useFetch("/api/projects/update", {
+    method: "POST",
+    body: formData,
+    query: { id: route.params.slug },
+  });
 
   let ok = data.value.status === 200;
 

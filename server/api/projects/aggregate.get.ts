@@ -1,14 +1,18 @@
 import { serverSupabaseClient, serverSupabaseUser } from "#supabase/server";
-import {
-  useBackendFormValidator,
-  useFormDataValue,
-} from "~~/composables/useFormHelper";
 
 export default defineEventHandler(async (event) => {
   const body = await readMultipartFormData(event);
   const client = serverSupabaseClient(event);
+  const user = await serverSupabaseUser(event);
 
-  const { data: project, error: projectError }: any = await client.from(
+  const { data: contact, error: contactError }: any = await client
+    .from("contact")
+    .select("*")
+    .eq("id", user!.id);
+
+  console.log("user ======> ", user);
+
+  const { data: projects, error: projectError }: any = await client.from(
     "project"
   ).select(`
     *,
@@ -16,14 +20,11 @@ export default defineEventHandler(async (event) => {
         *
         ),
     projectToCompany (
-        company (
             *
-        )
         )
     `);
 
   if (projectError) {
-    console.log(projectError);
     return {
       status: 500,
       data: null,
@@ -31,9 +32,27 @@ export default defineEventHandler(async (event) => {
     };
   }
 
+  if (user!.email?.includes("@financesoft.de")) {
+    return {
+      status: 200,
+      data: projects,
+      error: projectError,
+    };
+  }
+
+  const projectArr: any = [];
+
+  for (const project of projects) {
+    for (const e of project.projectToCompany) {
+      if (e.companyId === contact[0].companyId) {
+        projectArr.push(project);
+      }
+    }
+  }
+
   return {
     status: 200,
-    data: project,
+    data: projectArr,
     error: projectError,
   };
 });

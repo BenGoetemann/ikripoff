@@ -3,7 +3,12 @@
     <template #header>
       <ELBreadcrumb />
       <WRAdmin>
-        <UIButtonPrimary shrink icon="plus" text="Projekt anlegen" @click="navigateTo('/projekte/erstellen')" />
+        <UIButtonPrimary
+          shrink
+          icon="plus"
+          text="Projekt anlegen"
+          @click="navigateTo('/projekte/erstellen')"
+        />
       </WRAdmin>
     </template>
     <template #main>
@@ -19,9 +24,12 @@
           <ELUIToggle type="mode" :store="projectStore" text="List View" />
         </nav>
       </div>
-     
-      <ELListView v-if="projectStore.mode === 'list-view'" >
-        <UIListProjectItem v-for="item in data.data" :key="item.id" :item="item" />
+      <ELListView v-if="projectStore.mode === 'list-view'">
+        <UIListProjectItem
+          v-for="item in data.data"
+          :key="item.id"
+          :item="item"
+        />
       </ELListView>
     </template>
   </LOOverview>
@@ -30,11 +38,14 @@
 <script setup lang="ts">
 const projectStore = useProjectOverviewStore();
 
-const { data, pending, error }: any = await useFetch("/api/projects/aggregate", {
-  method: "GET",
-});
+const { data, pending, error }: any = await useFetch(
+  "/api/projects/aggregate",
+  {
+    method: "GET",
+  }
+);
 
-console.log(data)
+console.log(data);
 
 definePageMeta({ middleware: ["auth", "user-has-profile"] });
 </script>

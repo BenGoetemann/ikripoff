@@ -19,11 +19,20 @@
       <div class="description-wrapper">
         <p>{{ item.description }}</p>
       </div>
-      <UIButtonPrimary
-        @click="router.push(`/projekte/${item.id}`)"
-        text="Bearbeiten"
-        icon="edit"
-      />
+      <div class="button-wrapper">
+        <WRAdmin>
+          <UIButtonPrimary
+            @click="router.push(`/projekte/edit/${item.id}`)"
+            text="Bearbeiten"
+            icon="edit"
+          />
+        </WRAdmin>
+        <UIButtonPrimary
+          @click="router.push(`/projekte/${item.id}`)"
+          text="Ansehen"
+          icon="eye"
+        />
+      </div>
     </div>
     <div class="image-wrapper">
       <img
@@ -76,5 +85,9 @@ h3 {
   > .info-bar-item {
     @apply flex justify-start items-center gap-2;
   }
+}
+
+.button-wrapper {
+  @apply flex-row-start gap-4;
 }
 </style>

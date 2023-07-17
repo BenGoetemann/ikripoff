@@ -23,3 +23,11 @@ export const useSimpleToast = (
     useToast().error(`${errorMessage}: ${error}`);
   }
 };
+
+export const useErrorToast = (
+  error: any,
+) => {
+  if (error) {
+    useToast().error(`${error}`);
+  }
+}
