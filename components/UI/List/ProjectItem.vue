@@ -50,6 +50,10 @@ const date = computed(() => {
   return new Date(props.item.timestamp).toLocaleDateString();
 });
 
+onMounted(() => {
+  console.log(props.item);
+});
+
 const props = defineProps<{
   item: any;
 }>();
